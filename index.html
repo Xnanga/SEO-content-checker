@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>SEO Content Checker</title>
+    <meta name="description" content="SEO Content Checker" />
+    <meta name="author" content="Jamie Peutherer" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <h1>SEO Content Checker</h1>
+    <span class="tagline"
+      >Paste your content below, add a target keyword, click the analyse button,
+      get your recommendations.</span
+    >
+    <div class="side-container">
+      <div class="left-side">
+        <div id="editor" class="editor" contenteditable="true"></div>
+        <div class="keyword-section">
+          <input
+            class="keyword__input"
+            type="text"
+            id="t-keyword"
+            name="t-keyword"
+          />
+          <input class="keyword__submit" type="submit" value="Analyse" />
+        </div>
+      </div>
+
+      <div class="right-side">
+        <div class="right-side__title">
+          <h2>Recommendations</h2>
+        </div>
+        <div class="right-side__recommendations"></div>
+      </div>
+    </div>
+
+    <script src="js/content-checker.js"></script>
+  </body>
+</html>
