@@ -25,7 +25,7 @@ let recommendationListParent = document.querySelector(
 const controller = function (copy, tKeyword) {
   const recommendations = [];
   const pCopyArr = processCopy(copy);
-  const pCopy = copy.toLowerCase();
+  const pCopy = copy;
 
   const instances = findKeywordInstances(pCopy, tKeyword, pCopyArr);
 
@@ -94,8 +94,8 @@ tKeywordButton.addEventListener("click", function () {
   tKeywordLabel = document.querySelector(".keyword__input").value;
   editorCopy = document.getElementById("editor").textContent;
 
-  textCopy = String(editorCopy);
-  tKeyword = String(tKeywordLabel);
+  textCopy = String(editorCopy).toLowerCase();
+  tKeyword = String(tKeywordLabel).toLowerCase();
 
   controller(textCopy, tKeyword);
 });
