@@ -3,6 +3,24 @@
 $default-font-size: 1.6rem;
 $default-font-style: "Lato", sans-serif;
 
+// Mixins
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-baseline {
+  display: flex;
+  align-items: baseline;
+  justify-content: baseline;
+}
+
+@mixin black-border {
+  border: 1px solid #000;
+}
+
 // Defaults
 
 *,
@@ -10,6 +28,7 @@ $default-font-style: "Lato", sans-serif;
 *::after {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -50,24 +69,27 @@ h2 {
 // Layout
 
 .side-container {
+  @include black-border;
   display: flex;
   margin: 0 auto;
-  border: 1px solid #000;
 
   height: 85%;
   width: 100%;
 }
 
 .left-side {
+  @include black-border;
   width: 100%;
   background-color: #d0d0d0;
-  border: 1px solid #000;
 }
 
 .right-side {
+  @include black-border;
+  display: flex;
+  flex-direction: column;
+
   width: 100%;
   background-color: #d0d0d0;
-  border: 1px solid #000;
 
   &__title {
     border-bottom: 2px solid #000;
@@ -76,6 +98,14 @@ h2 {
 
   &__recommendations {
     //overflow: scroll;
+  }
+
+  &__overview {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+
+    margin-top: auto;
   }
 }
 
@@ -92,10 +122,11 @@ h2 {
 
 .editor {
   height: 85%;
-  width: 50vw;
+  width: 60vw;
   padding: 1rem;
   background-color: #fff;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 
   &:focus {
     outline: none;
@@ -119,4 +150,34 @@ h2 {
   font-size: 2rem;
   padding: 1rem;
   border-bottom: 2px solid #000;
+}
+
+.overview-block {
+  width: 100%;
+  height: 100%;
+  background-color: #a3a3a3;
+  padding-left: 1rem;
+  border-top: 2px solid #000;
+
+  &-wordcount {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    border-right: 2px solid #000;
+  }
+
+  &-rating {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  &-keywords {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    border-right: 2px solid #000;
+  }
+
+  &-misc {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
 }

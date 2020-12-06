@@ -5,20 +5,18 @@
 let tKeyword;
 let textCopy;
 let copyArr = [];
-
-const exampleData =
-  "This is Example TeXt which is used for an example. Example one...";
+let wordCount = 0;
 
 // DOM Elements
 
 let editorCopy = document.getElementById("editor").textContent;
-
 let tKeywordLabel = document.querySelector(".keyword__input").value;
 const tKeywordButton = document.querySelector(".keyword__submit");
-
 let recommendationListParent = document.querySelector(
   ".right-side__recommendations"
 );
+let wordCountLabel = document.querySelector(".wordcount");
+let keywordCountLabel = document.querySelector(".keyword-count");
 
 // Functions
 
@@ -28,9 +26,11 @@ const controller = function (copy, tKeyword) {
   const pCopy = copy;
 
   const instances = findKeywordInstances(pCopy, tKeyword, pCopyArr);
+  const wordcount = wordCountSufficient(pCopyArr);
 
-  recommendations.push(instances);
+  updateWordcount(pCopyArr);
 
+  recommendations.push(instances, wordcount);
   updateRecommendations(recommendations);
 };
 
@@ -47,35 +47,35 @@ const findKeywordInstances = function (pCopy, tKeyword, pCopyArr) {
   let re = new RegExp(tKeyword, "g");
   const instances = (pCopy.match(re) || []).length;
 
+  updateKeywordCount(instances);
   return calculateKeywordDensity(instances, pCopyArr.length);
 };
 
 const calculateKeywordDensity = function (instances, wordcount) {
   const density = (instances / wordcount) * 100;
-  console.log(density);
 
   if (density < 0.8 && density > 0) {
     return `
     <div class="recommendation">
-    Your target keyword only appears ${instances} time(s). Consider including your target keyword naturally in the copy a few more times.
+    ❌ Your target keyword only appears ${instances} time(s). Consider including your target keyword naturally in the copy a few more times.
   </div>
       `;
   } else if (density > 0.8 && density < 1.2) {
     return `
     <div class="recommendation">
-    Your target keyword appears ${instances} time(s). This is within an ideal range for SEO best practice!
+    ✔️ Your target keyword appears ${instances} time(s). This is within an ideal range for SEO best practice!
   </div>
       `;
   } else if (density > 1.2) {
     return `
     <div class="recommendation">
-    Your target keyword appears ${instances} time(s). Consider reducing the number of times your target keyword is included to avoid keyword-stuffing.
+    ❌ Your target keyword appears ${instances} time(s). Consider reducing the number of times your target keyword is included to avoid keyword-stuffing.
   </div>
       `;
   } else if (density === 0) {
     return `
     <div class="recommendation">
-    Your target keyword does not appear anywhere in the copy. Make sure to add some instances in naturally to signal keyword-relevance.
+    ❌ Your target keyword does not appear anywhere in the copy. Make sure to add some instances in naturally to signal keyword-relevance.
   </div>
       `;
   }
@@ -86,6 +86,30 @@ const updateRecommendations = function (recommendations) {
   recommendations.forEach((recommendation) => {
     recommendationListParent.insertAdjacentHTML("beforeEnd", recommendation);
   });
+};
+
+const updateWordcount = function (copyArr) {
+  wordCountLabel.textContent = `Wordcount: ${copyArr.length}`;
+};
+
+const updateKeywordCount = function (keywordCount) {
+  keywordCountLabel.textContent = `Keyword Count: ${keywordCount}`;
+};
+
+const wordCountSufficient = function (wordcount) {
+  if (!wordcount) {
+    return `<div class="recommendation">
+    ❌ No content added. Please paste in content and click the "analyse" button.
+      </div>`;
+  } else if (wordcount.length < 500) {
+    return `<div class="recommendation">
+    ❌ The length of the copy is only ${wordcount.length} words, less than the minimum recommended wordcount of 500 words.
+  </div>`;
+  } else if (wordcount.length >= 500) {
+    return `<div class="recommendation">
+    ✔️ The length of the copy is ${wordcount.length} words, above the minimum recommended wordcount of 500 words.
+  </div>`;
+  }
 };
 
 // Event Listeners
