@@ -17,6 +17,12 @@ let recommendationListParent = document.querySelector(
 );
 let wordCountLabel = document.querySelector(".wordcount");
 let keywordCountLabel = document.querySelector(".keyword-count");
+const headingList = [
+  ...document.querySelectorAll(".header-dropdown__list-item"),
+];
+
+// Does not appear to be pulling the highlighted text
+let highlightedText = document.getSelection().toString();
 
 // Functions
 
@@ -28,6 +34,7 @@ const controller = function (copy, tKeyword) {
   const instances = findKeywordInstances(pCopy, tKeyword, pCopyArr);
   const wordcount = wordCountSufficient(pCopyArr);
 
+  processFirstPara(copy);
   updateWordcount(pCopyArr);
 
   recommendations.push(instances, wordcount);
@@ -118,6 +125,18 @@ const wordCountSufficient = function (wordcount) {
   }
 };
 
+const processFirstPara = function (copy) {
+  const firstPara = copy.split("</p>")[0];
+  console.log(firstPara);
+};
+
+// Find a way to take highlighted text and apply heading to it.
+const applyHeading = function (headingID) {
+  console.log(headingID);
+  highlightedText = document.getSelection().toString();
+  console.log(highlightedText);
+};
+
 // Event Listeners
 
 tKeywordButton.addEventListener("click", function () {
@@ -142,4 +161,10 @@ editor.addEventListener("paste", function (e) {
 
     document.selection.createRange().pasteHTML(content);
   }
+});
+
+headingList.forEach(function (option) {
+  option.addEventListener("click", function () {
+    applyHeading(option.id);
+  });
 });
