@@ -57,19 +57,25 @@ const calculateKeywordDensity = function (instances, wordcount) {
   if (density < 0.8 && density > 0) {
     return `
     <div class="recommendation">
-    ❌ Your target keyword only appears ${instances} time(s). Consider including your target keyword naturally in the copy a few more times.
+    ❌ Your target keyword density is ${density.toFixed(
+      2
+    )}% and only appears ${instances} time(s). Consider including your target keyword naturally in the copy a few more times.
   </div>
       `;
   } else if (density > 0.8 && density < 1.2) {
     return `
     <div class="recommendation">
-    ✔️ Your target keyword appears ${instances} time(s). This is within an ideal range for SEO best practice!
+    ✔️ Your target keyword density is ${density.toFixed(
+      2
+    )}% and appears ${instances} time(s). This is within an ideal range for SEO best practice!
   </div>
       `;
   } else if (density > 1.2) {
     return `
     <div class="recommendation">
-    ❌ Your target keyword appears ${instances} time(s). Consider reducing the number of times your target keyword is included to avoid keyword-stuffing.
+    ❌ Your target keyword density is ${density.toFixed(
+      2
+    )}% and appears ${instances} time(s). Consider reducing the number of times your target keyword is included to avoid keyword-stuffing.
   </div>
       `;
   } else if (density === 0) {
